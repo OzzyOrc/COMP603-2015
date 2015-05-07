@@ -32,6 +32,8 @@ What is a compiler? Name some.
 
 Translates higher level programming languages to lower level machine code.
 
+GCC (C language)
+
 What is an interpreter? How does that differ from a compiler?
 
 Interpreter, like a compiler, translates higher-level language to lower level but only does it one line at a time.  A compiler on the other hand, will read through the entire code base and then output the result.
