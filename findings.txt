@@ -1,0 +1,15 @@
+1.	Tiny C compiler
+
+2.	Scanning for the compiler is intitally defined by the tccpp.c file which initializes the first scan
+    The lexical block of the code is defined by the stab.def
+    The tokenization part of the code is defined by tcc.h which in fact initializes a max token size so it can then be transferred into a string.
+    The parsing also occurs in the tcc.h part of the code as it eventually puts the code in a parse code.  
+    The configure script contains part of the AST because it contains some comments and code regarding the creation of trees.  Though still unclear.
+    winnetwk.h is responsible for optimization as it finds the source of the tree implementation then optimizes them.
+    Code generation is produced by arm-gen.c as it explicitly states its purpose for being a code generator. libtcc_test.c also tests the code for backend.
+
+3.	The code was very clear and concise for such a modular compiler. I was very impressed with their 	 commenting as it acted as a form of inputstream all the way to the outstream.  The assembly code 		seemed to lack the comments it needed (probably because the developers didn't even know what it 	defined).  
+
+4.	The notes were stated above as I "fished" for compenents in the compiler.
+
+5	D O N E !
