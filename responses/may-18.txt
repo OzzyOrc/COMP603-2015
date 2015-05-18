@@ -1,6 +1,7 @@
 What does it mean for two sets to be disjoint?
 
-
+Two sets are disjoint iff they don't have any element in common.
 
 What is the union of two sets?
 
+When two sets merge both their elements into one common set which defines their union.

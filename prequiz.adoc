@@ -20,13 +20,19 @@ git push -u --all origin
 
 == Questions
 
-What is the difference between a set, a bag, and a sequence?
+*What is the difference between a set, a bag, and a sequence?
 
-A set is a collection of elements. A bag is collection of elements that can have duplicate elements. A sequence is an ordered set of elements.
+They are all collections! 
 
-What is a language (in terms of sets and sequences)?
+A set is an unordered collection of elements and contains no duplicates. 
+A bag is an unordered collection of elements that can have duplicates. 
+A sequence is an ordered collection of elements and contain duplicates.
 
-A mixture of lexical and symantic processes that define a human-readable language.
+*What is a language (in terms of sets and sequences)?
+
+An *alphabet* is a set of symbols (i.e., 'char').
+
+A mixture of lexical and symantic structure that make up a human-readable language.
 
 What is a compiler? Name some.
 
