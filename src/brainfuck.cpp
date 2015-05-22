@@ -1,8 +1,6 @@
 /*
 = Brainfuck
-
 If you have gcc:
-
 ----
 g++ -o brainfuck.exe brainfuck.cpp
 brainfuck.exe helloworld.bf
@@ -106,17 +104,31 @@ class Program : public Container {
  * Modify as necessary and add whatever functions you need to get things done.
  */
 void parse(fstream & file, Container * container) {
-    char c;
-    // How to peek at the next character
-    c = (char)file.peek();
-    // How to print out that character
-    cout << c;
-    // How to read a character from the file and advance to the next character
-    file >> c;
-    // How to print out that character
-    cout << c;
-    // How to insert a node into the container.
-    container->children.push_back(new CommandNode(c));
+    //Worked on this with Sarthak
+
+    char look_ahead;
+    file >> look_ahead;
+    if (look_ahead == '+' || look_ahead == '-' || look_ahead == '<' || look_ahead == '>' || look_ahead == ',' || look_ahead == '.')
+    {
+        container->children.push_back (new CommandNode (look_ahead));
+        //parse (fstream & file, Container * container);    
+    }
+    look_ahead = (char) file.peek();
+
+    if (look_ahead == '[')
+    {
+        Loop program;
+        parse (file, & program);
+        container->children.push_back (new Loop (program));
+        file >> look_ahead;
+    }
+
+    look_ahead = (char) file.peek();
+
+    if (look_ahead == '+' || look_ahead == '-' || look_ahead == '<' || look_ahead == '>' || look_ahead == ',' || look_ahead == '.')
+    {
+        parse (file, container);    
+    }
 }
 
 /**
