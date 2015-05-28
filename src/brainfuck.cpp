@@ -88,6 +88,9 @@ class Loop : public Container {
         }
 };
 
+
+
+
 /**
  * Program is the root of a Brainfuck program abstract syntax tree.
  * Because Brainfuck is so primitive, the parse tree is the abstract syntax tree.
@@ -104,32 +107,48 @@ class Program : public Container {
  * Modify as necessary and add whatever functions you need to get things done.
  */
 void parse(fstream & file, Container * container) {
-    //Worked on this with Sarthak
 
-    char look_ahead;
-    file >> look_ahead;
-    if (look_ahead == '+' || look_ahead == '-' || look_ahead == '<' || look_ahead == '>' || look_ahead == ',' || look_ahead == '.')
-    {
-        container->children.push_back (new CommandNode (look_ahead));
-        //parse (fstream & file, Container * container);    
+    char c;
+
+    // How to insert a node into the container
+
+    //any character else that we don't care about
+    do{
+        file >> c;
+    }while(c != '+' && c != '-' && c != '<' && c != '>' && c != ',' && c != '.' && c != '[' && c != ']');
+    
+    //command case
+    if(c == '+' || c == '-' || c == '<' || c == '>' || c == ',' || c == '.'){
+        container->children.push_back(new CommandNode(c));
     }
-    look_ahead = (char) file.peek();
 
-    if (look_ahead == '[')
-    {
+
+    c = (char)file.peek();
+    //loop case
+    if(c == '['){
         Loop program;
-        parse (file, & program);
-        container->children.push_back (new Loop (program));
-        file >> look_ahead;
+        parse(file, & program);
+        container->children.push_back(new Loop(program));   
+        file >> c;
     }
 
-    look_ahead = (char) file.peek();
-
-    if (look_ahead == '+' || look_ahead == '-' || look_ahead == '<' || look_ahead == '>' || look_ahead == ',' || look_ahead == '.')
-    {
-        parse (file, container);    
+    //more stuff case
+    c = (char)file.peek();
+    if(c == '+' || c == '-' || c == '<' || c == '>' || c == ',' || c == '.'){   
+        parse(file, container);
     }
 }
+
+
+/*
+Program -> Sequence
+Sequence -> Command Sequence
+Sequence -> Loop Sequence
+Sequence -> any other character, ignore (treat as a comment)
+Sequence -> "" (empty string)
+Command -> '+' | '-' | '<' | '>' | ',' | '.'
+Loop -> '[' Sequence ']'
+*/
 
 /**
  * A printer for Brainfuck abstract syntax trees.
@@ -170,27 +189,39 @@ class Interpreter : public Visitor {
         void visit(const CommandNode * leaf) {
             switch (leaf->command) {
                 case INCREMENT:
+                    memory[pointer]++;
                     break;
                 case DECREMENT:
+                    memory[pointer]--;
                     break;
                 case SHIFT_LEFT:
+                    pointer--;
                     break;
                 case SHIFT_RIGHT:
+                    pointer++;
                     break;
                 case INPUT:
+                    cin >> memory[pointer];
                     break;
                 case OUTPUT:
+                    cout << memory[pointer];
                     break;
             }
         }
         void visit(const Loop * loop) {
-            for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
-                (*it)->accept(this);
+            while(memory[pointer]){
+                for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
+                    (*it)->accept(this);
+                }
             }
         }
         void visit(const Program * program) {
             // zero init the memory array
             // set pointer to zero
+            for(int i =0; i< 30000; i++){
+                memory[i] = 0;
+            }
+            pointer = 0;
             for (vector<Node*>::const_iterator it = program->children.begin(); it != program->children.end(); ++it) {
                 (*it)->accept(this);
             }
