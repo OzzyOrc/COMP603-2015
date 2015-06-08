@@ -56,7 +56,8 @@ class Node {
 class CommandNode : public Node {
     public:
         Command command;
-        CommandNode(char c) {
+        int counter;
+        CommandNode(char c, int num) {
             switch(c) {
                 case '+': command = INCREMENT; break;
                 case '-': command = DECREMENT; break;
@@ -65,6 +66,8 @@ class CommandNode : public Node {
                 case ',': command = INPUT; break;
                 case '.': command = OUTPUT; break;
             }
+
+            counter = num;
         }
         void accept (Visitor * v) {
             v->visit(this);
@@ -88,9 +91,6 @@ class Loop : public Container {
         }
 };
 
-
-
-
 /**
  * Program is the root of a Brainfuck program abstract syntax tree.
  * Because Brainfuck is so primitive, the parse tree is the abstract syntax tree.
@@ -107,48 +107,60 @@ class Program : public Container {
  * Modify as necessary and add whatever functions you need to get things done.
  */
 void parse(fstream & file, Container * container) {
-
-    char c;
-
-    // How to insert a node into the container
-
-    //any character else that we don't care about
-    do{
-        file >> c;
-    }while(c != '+' && c != '-' && c != '<' && c != '>' && c != ',' && c != '.' && c != '[' && c != ']');
     
-    //command case
-    if(c == '+' || c == '-' || c == '<' || c == '>' || c == ',' || c == '.'){
-        container->children.push_back(new CommandNode(c));
-    }
+    Loop * program; 
+    char c;
+    int count;
+    
 
+    
+    while (file >> c) {
+        count = 1; 
+        
+        
+        if(c == '+' || c == '-' || c == '<' || c == '>' || c == ',' || c == '.') 
+        {
+            while(((char)file.peek()) == c){ 
+                file >> c; 
+                count++; 
+            }
+            
+            container->children.push_back(new CommandNode(c,count)); 
+        }
+        else if(c == '['){  
+            program = new Loop(); 
+            
+            parse(file, program); 
+            
+            if (program->children.size() == 1) 
+                { /
+                
+                CommandNode* child = dynamic_cast<CommandNode*>(program->children.front());  
+                
+                if (child->command == INCREMENT || child->command == DECREMENT) 
+                { 
+                    
+                    container->children.push_back(new CommandNode('z',1)); 
+                    delete program; 
+                } 
+                else 
+                {
+                    container->children.push_back(program); 
+                }
 
-    c = (char)file.peek();
-    //loop case
-    if(c == '['){
-        Loop program;
-        parse(file, & program);
-        container->children.push_back(new Loop(program));   
-        file >> c;
-    }
-
-    //more stuff case
-    c = (char)file.peek();
-    if(c == '+' || c == '-' || c == '<' || c == '>' || c == ',' || c == '.'){   
-        parse(file, container);
+            }
+            else
+            {
+                container->children.push_back(program); 
+            }
+        }
+        else if (c == ']') 
+        { 
+            return;
+        }
+        
     }
 }
-
-
-/*
-Program -> Sequence
-Sequence -> Command Sequence
-Sequence -> Loop Sequence
-Sequence -> any other character, ignore (treat as a comment)
-Sequence -> "" (empty string)
-Command -> '+' | '-' | '<' | '>' | ',' | '.'
-Loop -> '[' Sequence ']'
-*/
 
 /**
  * A printer for Brainfuck abstract syntax trees.
@@ -158,6 +170,8 @@ Loop -> '[' Sequence ']'
 class Printer : public Visitor {
     public:
         void visit(const CommandNode * leaf) {
+
+            for (int i = 0; i < leaf->counter; i++) {
             switch (leaf->command) {
                 case INCREMENT:   cout << '+'; break;
                 case DECREMENT:   cout << '-'; break;
@@ -167,6 +181,7 @@ class Printer : public Visitor {
                 case OUTPUT:      cout << '.'; break;
             }
         }
+    }
         void visit(const Loop * loop) {
             cout << '[';
             for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
@@ -188,40 +203,47 @@ class Interpreter : public Visitor {
     public:
         void visit(const CommandNode * leaf) {
             switch (leaf->command) {
-                case INCREMENT:
-                    memory[pointer]++;
-                    break;
-                case DECREMENT:
-                    memory[pointer]--;
-                    break;
-                case SHIFT_LEFT:
-                    pointer--;
-                    break;
-                case SHIFT_RIGHT:
-                    pointer++;
-                    break;
-                case INPUT:
-                    cin >> memory[pointer];
-                    break;
-                case OUTPUT:
-                    cout << memory[pointer];
-                    break;
+                 case INCREMENT:
+                     memory[pointer]++;
+                     break;
+                 case DECREMENT:
+                     memory[pointer]--;
+                     break;
+                 case SHIFT_LEFT:
+                     pointer--;
+                     break;
+                 case SHIFT_RIGHT:
+                     pointer++;
+                     break;
+                 case INPUT:
+                     cin.get(memory[pointer]);
+                     break;
+                 case OUTPUT:
+                     cout << memory[pointer];
+                     break;
             }
         }
         void visit(const Loop * loop) {
+            
             while(memory[pointer]){
                 for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
                     (*it)->accept(this);
                 }
-            }
+
+            }            
         }
+
         void visit(const Program * program) {
             // zero init the memory array
             // set pointer to zero
-            for(int i =0; i< 30000; i++){
+            for(int i = 0; i < 30000; i++){
+                
                 memory[i] = 0;
+                
             }
+            
             pointer = 0;
+
             for (vector<Node*>::const_iterator it = program->children.begin(); it != program->children.end(); ++it) {
                 (*it)->accept(this);
             }
