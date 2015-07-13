@@ -155,7 +155,7 @@ void parse(fstream & file, Container * container) {
             }
         }
         else if (c == ']') 
-        { 
+       {  
             return;
         }
         

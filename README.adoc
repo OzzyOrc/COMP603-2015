@@ -5,10 +5,30 @@
 Status update for all. Please populate your README with these:
 
 * What are you working on?
+	
+	The team is using Rust to build a Tron game.
+
 * What's your implementation language?
+
+	Rust 
+
 * What have you done so far? Did you meet your expectations for this week yet?
+
+	Installed Rust and started implementing simpler functions in relation to the game.
+
 * What do you hope to accomplish by next week? How? (Who's doing what, if this is a team?)
+
+	Have some form of a game actually functioning:
+		Joey: programmer
+		Sarthak: programmer
+		Deep: Designer
+		Ori: programmer/designer
+		Mentu: design/testing
+
+
 * What do you need to move forward?
+
+	Need to collaborate more on what the end product should look like.
 
 Also: Looking for a target language? http://jasmin.sourceforge.net/[How about JVM]?
 
