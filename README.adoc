@@ -1,12 +1,157 @@
 = Compiler Design
 
-IMPORTANT: June 18 midterm is coming.
+== July 13: Status update
 
-== June 24: Group project kick-off
+Status update for all. Please populate your README with these:
+
+* What are you working on?
+* What's your implementation language?
+* What have you done so far? Did you meet your expectations for this week yet?
+* What do you hope to accomplish by next week? How? (Who's doing what, if this is a team?)
+* What do you need to move forward?
+
+Also: Looking for a target language? http://jasmin.sourceforge.net/[How about JVM]?
+
+Also: http://blog.codinghorror.com/quantity-always-trumps-quality/[Get motivated]
+
+== July 10: Random stuff
+
+* http://cube-drone.com/comics/c/relentless-persistence[Javascript problems and solutions]
+* http://www.cl.cam.ac.uk/~rja14/book.html[Security Engineering]
+
+=== Parsing hints:
+
+If you're parsing an arbitrary grammar, may I suggest using a https://en.wikipedia.org/wiki/Comparison_of_parser_generators[parsing tool]:
+
+* http://boost-spirit.com/home/[Parsing tool for C++]
+* http://www.antlr.org/[Parsing tool for Java]
+* http://www.dabeaz.com/ply/[Parsing tool for Python]
+* http://pegjs.org/[Parsing tool for Javascript]
+
+NOTE: If you're parsing http://github.com/lawrancej/clang-project[C++], http://github.com/lawrancej/jdt-project[Java], or https://docs.python.org/2/library/ast.html[Python] itself, please use existing compilers as a starting point.
+
+== July 8: Microoptimizations and more project stuff
+
+How to optimize
+
+* http://www.smallmemory.com/book.html[Patterns for writing small memory software]
+* http://www.smallmemory.com/PatternSummaries.pdf[Summary (PDF)]
+
+What to optimize
+
+* http://brofiler.com/[Brofiler]
+* https://visualvm.java.net/[VisualVM]
+
+When to optimize
+
+Later, because: Premature optimization is the root of all evil. -- Donald Knuth
+
+Also: http://needsmorejpeg.com/[Needs more jpeg]
+
+== July 6: Linkers and project stuff
+
+=== Linkers
+
+Did you know https://en.wikipedia.org/wiki/Grace_Hopper[Grace Hopper] gave compilers their name?
+What she was referring to was what is now known as linkers and loaders.
+
+http://www.iecc.com/linker/[All you ever wanted to know about linkers]
+
+Develop for Android? Use http://proguard.sourceforge.net/[Proguard] is like gc for linking.
+It removes un-referenced objects from classfiles.
+
+=== My own crappy project
+
+https://github.com/lawrancej/use-the-generated-name[A derivative-based parsing framework]
+
+=== Project stuff
+
+For the remaining labs, we'll update each other on our progress.
+
+During each lab period, each team should have answers to these questions.
+
+. What did you do? (Nothing isn't a good answer to that question)
+. Did you achieve what you set out to achieve from the prior week?
+. What are you struggling with or what obstacles do you face?
+. What do you plan to achieve by next week?
+
+== June 29: Off-site
+
+* 9am: Starbucks 283 Longwood Ave, Boston, MA 02115
+* 11am: J.P. Licks Mission Hill 1618 Tremont St Boston, MA 02120
+
+== June 26: Cool things on the internet
+
+I got nothing.
+
+* http://spacexstats.com/mission.php?launch=24[SpaceX launch]
+* https://www.youtube.com/watch?v=Ki_Af_o9Q9s[Awesome landing]
+* https://www.ets.org/Media/Tests/MFT/pdf/mft_samp_questions_compsci.pdf[Major field test]
+* https://www-01.ibm.com/support/knowledgecenter/SS9H2Y_7.1.0/com.ibm.dp.doc/json_jsonxconversionexample.html[WTF]
+* https://github.com/oyvindrobertsen/awesome-awesome[Awesome lists]
+* https://www.youtube.com/watch?v=ZzsK8Am6dKU[Parsing with derivatives]
+* https://www.youtube.com/watch?v=Ahg6qcgoay4[Awareness test]
+
+== June 25: Lab 6. Team and project selection, repo setup
+
+=== Get some friends (solo projects are sad projects)
+
+For best results, please don't go it alone. Groups of 2-5 work best.
+Don't be shy, but we'll skip the icebreaker. :-)
+
+=== Get some ideas (and discuss them)
+
+See June 19 for some lame ideas.
+Remember the goal: grammars, pointers and recursion, oh my! :-)
+Discuss project ideas, and write them up in `README` or in your issue tracker.
+
+=== Setup a repo (even if you have no friends or ideas)
+Yes, everybody does this, not just the team lead.
+If the project has one central repo, then every push forces a merge, which is a bad thing.
+Either have separate repos or separate branches to push to.
+
+. https://github.com/new[Create a repo]
+. Be sure to add `lawrancej` to your collaborators (Go to: Settings -> Collaborators), so I can see your repo.
+. Clone your repo (`git clone` the SSH URL)
+. Go into your repo (`cd` your-repo)
+. Add your friend's remote (`git remote add` your-friends-name their-url)
+. Fetch their stuff (`git fetch --all`)
+
+== June 24: Canceled :-(
 
 == June 22: Post-midterm review
 
-== June 19: Post-midterm review
+== June 19: Group project kick-off
+
+For our project, we'll begin after we're done with our common labs (they're done!).
+You're welcome to work with as few or as many people as you wish either in this section or others.
+Start thinking about which of these you'd like to do, or suggest new ideas.
+
+You're welcome to pursue these traditional project ideas of implementing a small language:
+
+* Implement some moderately simple language, like say, http://en.wikipedia.org/wiki/Cool_(programming_language)[Cool], http://www.buildyourownlisp.com/[LISP], http://llvm.org/docs/tutorial/LangImpl1.html[Kaleidoscope] or https://en.wikipedia.org/wiki/PL/0[PL/0].
+* Something compiler-related that dovetails nicely with Senior project (e.g., a textual command interface to some game, web or mobile app).
+
+These ideas are also welcome:
+
+* A http://matt.might.net/articles/parsing-with-derivatives/[parser combinator library] to target multiple parsing strategies (derivative, shift-reduce, or recursive descent parsing).
+* https://www.semanticmerge.com/[Semantic merge, but for something like JSON or XML]
+
+These projects build upon tools like http://clang.llvm.org/docs/Tooling.html[clang] (for C/C++), http://www.vogella.com/tutorials/EclipseJDT/article.html[JDT] (for Java), https://docs.python.org/2/library/ast.html[Python's ast module] to do work:
+
+* Automated refactoring tool for existing languages to serve education and large projects
+* Search engine for identifiers and literals in code that makes good recommendations, (e.g., http://en.wikipedia.org/wiki/Pagerank[PageRank])
+* Something like http://en.wikipedia.org/wiki/QuickCheck[Quickcheck], but can http://en.wikipedia.org/wiki/Characterization_test[generate characterization tests automatically] and efficiently.
+
+Here's some starter code:
+
+* http://github.com/lawrancej/jdt-project[Parse and traverse Java code]
+* http://github.com/lawrancej/clang-project[Parse and traverse C/C++ code]
+
+Also, esoteric languages are good for laughs:
+
+* https://esolangs.org/wiki/Language_list[Esoteric languages]
+* https://github.com/lhartikk/ArnoldC[ArnoldC] (it's not a tumor!)
 
 == June 18: Midterm
 
